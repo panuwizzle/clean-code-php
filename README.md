@@ -29,7 +29,7 @@
      * [หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 2) ](#หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 2))
      * [เอาโค้ดที่ตายแล้วออกไป](#เอาโค้ดที่ตายแล้วออกไป)
   4. [อ็อบเจคและโครงสร้างข้อมูล](#อ็อบเจคและโครงสร้างข้อมูล)
-     * [Use object encapsulation](#use-object-encapsulation)
+     * [ใช้การซ่อนเนื้อหาของอ็อบเจค (object encapsulation)](#ใช้การซ่อนเนื้อหาของอ็อบเจค (object encapsulation))
      * [Make objects have private/protected members](#make-objects-have-privateprotected-members)
   5. [คลาส](#classes)
      * [Prefer composition over inheritance](#prefer-composition-over-inheritance)
@@ -1045,25 +1045,24 @@ inventoryTracker('apples', $request, 'www.inventory-awesome.io');
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
 
-## Objects and Data Structures
+## อ็อบเจคและโครงสร้างข้อมูล
 
-### Use object encapsulation
+### ใช้การซ่อนเนื้อหาของอ็อบเจค (object encapsulation)
 
-In PHP you can set `public`, `protected` and `private` keywords for methods. 
-Using it, you can control properties modification on an object. 
+ใน PHP คุณสามารถใช้คีย์เวิร์ด `public`, `protected` และ `private` กับเมทธอด
+ใช้มันซะ คุณจะได้ควบคุมการเปลี่ยนแปลงพร็อบเพอตีของอ็อบเจคได้ 
 
-* When you want to do more beyond getting an object property, you don't have
-to look up and change every accessor in your codebase.
-* Makes adding validation simple when doing a `set`.
-* Encapsulates the internal representation.
-* Easy to add logging and error handling when getting and setting.
-* Inheriting this class, you can override default functionality.
-* You can lazy load your object's properties, let's say getting it from a
-server.
+* เมื่อคุณต้องการจะทำอะไรมากกว่าดึงข้อมูลพร็อบเพอตี คุณจะไม่ต้องค้นหาและเปลี่ยน
+แอกเซสเซอร์ (accessor) ทุกตัวในโค้ดเบส
+* ทำให้เพิ่มการตรวจสอบได้ง่ายเมื่อต้องใช้ `set`
+* ซ่อนเนื้อหาไว้ภายใน
+* ง่ายที่จะเพิ่มการทำบันทึก (logging) และการจัดการข้อผิดพลาดเมื่อทำการดึงและเปลี่ยนข้อมูล
+* เมื่อสืบทอดคลาสนี้ คุณสามารถจะเปลี่ยนการทำงานจากแบบเดิมได้
+* คุณสามารถทำเลซี่โหลด (lazy load) พร็อบเพอตีของอ็อบเจคของคุณได้ เช่นโหลดจาก server
 
-Additionally, this is part of [Open/Closed](#openclosed-principle-ocp) principle.
+ยิ่งกว่านั้น อันนี้เป็นส่วนหนึ่งของหลักการ โอเพน-โคลส (Open/Closed principle)
 
-**Bad:**
+**ไม่ดี:**
 
 ```php
 class BankAccount
@@ -1073,11 +1072,11 @@ class BankAccount
 
 $bankAccount = new BankAccount();
 
-// Buy shoes...
+// ซื้อรองเท้า...
 $bankAccount->balance -= 100;
 ```
 
-**Good:**
+**ดี:**
 
 ```php
 class BankAccount
@@ -1111,26 +1110,26 @@ class BankAccount
 
 $bankAccount = new BankAccount();
 
-// Buy shoes...
+// ซื้อรองเท้า ...
 $bankAccount->withdrawBalance($shoesPrice);
 
-// Get balance
+// เช็คยอด
 $balance = $bankAccount->getBalance();
 ```
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
-### Make objects have private/protected members
+### ให้อ็อบเจคมีองค์ประกอบแบบไพรเวทและโปรเทค
 
-* `public` methods and properties are most dangerous for changes, because some outside code may easily rely on them and you can't control what code relies on them. **Modifications in class are dangerous for all users of class.**
-* `protected` modifier are as dangerous as public, because they are available in scope of any child class. This effectively means that difference between public and protected is only in access mechanism, but encapsulation guarantee remains the same. **Modifications in class are dangerous for all descendant classes.**
-* `private` modifier guarantees that code is **dangerous to modify only in boundaries of single class** (you are safe for modifications and you won't have [Jenga effect](http://www.urbandictionary.com/define.php?term=Jengaphobia&defid=2494196)).
+* เมดธอดและพร็อบเพอตีที่เป็น `public` เสี่ยงต่อการถูกเปลี่ยนแปลงมาก เพราะโค้ดอื่นบางตัวอาจจะมาอิงอยู่กับพวกมัน และคุณไม่สามารถควบคุมได้ว่าโค้ดส่วนไหนที่ถูกยึดโยงอยู่ **การเปลี่ยนแปลงใด ๆ ในคลาสจะทำให้เกิดอันตรายกับผู้ใช้คลาสทั้งหมด**
+* โมดิฟายเออร์ `protected` ก็อันตรายไม่แพ้ public เพราะมันถูกเข้าถึงได้จากคลาสลูกคลาสไหนก็ได้ นั่นหมายความว่าสิ่งที่แตกต่างระหว่าง public กับ protected ก็แค่วิธีการเข้าถึงเท่านั้นเอง แต่การเอนแคปซูเลชั่นจะรับประกันว่าทุกอย่างจะเหมือนเดิม **การเปลี่ยนแปลงใด ๆ ในคลาสจะทำให้เกิดอันตรายกับคลาสลูกทั้งหมด**
+* โมดิฟายเออร์ `private` รับประกันว่าโค้ดนั้น **ความเสี่ยงในการเปลี่ยนแปลงโค้ดจะถูกจำกัดอยู่ในคลาสเดียวเท่านั้น** (คุณจะปลอดภัยที่จะเปลี่ยนอะไรก็ได้และไม่ต้องเจอกับ [เจงก้า เอฟเฟค (Jenga effect)](http://www.urbandictionary.com/define.php?term=Jengaphobia&defid=2494196))
 
-Therefore, use `private` by default and `public/protected` when you need to provide access for external classes.
+เพราะฉะนั้น ใช้ `private` เป็นค่าเริ่มต้น และใช้ `public/protected` เมื่อคุณต้องการให้คลาสอื่นเข้าถึงได้
 
-For more informations you can read the [blog post](http://fabien.potencier.org/pragmatism-over-theory-protected-vs-private.html) on this topic written by [Fabien Potencier](https://github.com/fabpot).
+คุณสามารถอ่านข้อมูลเพิ่มเติมได้จาก [บล็อกโพสนี้](http://fabien.potencier.org/pragmatism-over-theory-protected-vs-private.html) เขียนโดย [Fabien Potencier](https://github.com/fabpot)
 
-**Bad:**
+**ไม่ดี:**
 
 ```php
 class Employee
@@ -1147,7 +1146,7 @@ $employee = new Employee('John Doe');
 echo 'Employee name: '.$employee->name; // Employee name: John Doe
 ```
 
-**Good:**
+**ดี:**
 
 ```php
 class Employee
@@ -1171,28 +1170,23 @@ echo 'Employee name: '.$employee->getName(); // Employee name: John Doe
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
-## Classes
+## คลาส
 
-### Prefer composition over inheritance
+### แนะนำให้ใช้การประกอบมากกว่าการสืบทอด (composition over inheritance)
 
-As stated famously in [*Design Patterns*](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four,
-you should prefer composition over inheritance where you can. There are lots of
-good reasons to use inheritance and lots of good reasons to use composition.
-The main point for this maxim is that if your mind instinctively goes for
-inheritance, try to think if composition could model your problem better. In some
-cases it can.
+อย่างที่กล่าวถึงใน [*Design Patterns*](https://en.wikipedia.org/wiki/Design_Patterns) โดยแก็งสี่สหาย (Gang of Four)
+คุณควรจะใช้การประกอบมากกว่าการสืบทอดคลาสในจุดที่ทำได้ มีเหตุผลดี ๆ มากมายที่จะใช้การสืบทอดคลาส 
+และมันก็มีเหตุผลอีกมากมายเหมือนกันที่จะใช้การประกอบ จุดหลักของคำกล่าวนี้คือถ้าใจคุณมุ่งไปที่การสืบทอด พยายาม
+ลองคิดว่าการประกอบจะแก้ปัญหาให้คุณได้ดีกว่า ซึ่งในบางกรณีมันเป็นเช่นนั้น
 
-You might be wondering then, "when should I use inheritance?" It
-depends on your problem at hand, but this is a decent list of when inheritance
-makes more sense than composition:
+คุณอาจจะกำลังคิดว่าแล้วเมื่อไรฉันถึงควรจะใช้การสืบทอดล่ะ? มันขึ้นอยู่กับปัญหาที่คุณเจอ
+แต่ปัญหาเหล่านั้นมันก็มีไม่กี่อย่างที่การสืบทอดจะดูมีเหตุผลกว่าการประกอบ
 
-1. Your inheritance represents an "is-a" relationship and not a "has-a"
-relationship (Human->Animal vs. User->UserDetails).
-2. You can reuse code from the base classes (Humans can move like all animals).
-3. You want to make global changes to derived classes by changing a base class.
-(Change the caloric expenditure of all animals when they move).
+1. การสืบทอดนั้นแสดงถึงความสัมพันธ์แบบการ "เป็นสิ่งหนึ่ง" และไม่ได้เป็นแบบ "มีสิ่งหนึ่ง" (คน -> สัตว์ กับ ผู้ใช้ -> รายละเอียดผู้ใช้)
+2. คุณสามารถใช้โค้ดเก่าจากคลาสแม่ (คนสามารถเคลื่อนที่ได้เหมือนสัตว์ทั่วไป)
+3. คุณต้องการจะให้เกิดการเปลี่ยนแปลงระดับโกลบอลโดยการเปลี่ยนที่คลาสแม่ (เปลี่ยนอัตราการเผาผลาญแคลอรี่ของสัตว์เมื่อเคลื่อนที่)
 
-**Bad:**
+**ไม่ดี:**
 
 ```php
 class Employee 
@@ -1209,8 +1203,8 @@ class Employee
     // ...
 }
 
-// Bad because Employees "have" tax data. 
-// EmployeeTaxData is not a type of Employee
+// ไม่ดี เพราะ Employee "มี" ข้อมูลการเสียภาษี
+// Employee TaxData ไม่ได้เป็น Employee
 
 class EmployeeTaxData extends Employee 
 {
@@ -1229,7 +1223,7 @@ class EmployeeTaxData extends Employee
 }
 ```
 
-**Good:**
+**ดี:**
 
 ```php
 class EmployeeTaxData 
