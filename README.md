@@ -818,7 +818,6 @@ class DBConnection
 $connection = new DBConnection($dsn);
 ```
 
-And now you must use instance of `DBConnection` in your application.
 และคุณควรใช้อินสแตนส์ของ `DBConnection` ตลอดทั้งแอพลิเคชัน
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
@@ -946,10 +945,6 @@ class Cessna implements Airplane
 
 ### หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 1) 
 
-PHP is untyped, which means your functions can take any type of argument.
-Sometimes you are bitten by this freedom and it becomes tempting to do
-type-checking in your functions. There are many ways to avoid having to do this.
-The first thing to consider is consistent APIs.
 PHP เป็นภาษาที่ไม่จำเป็นต้องประกาศชนิตของตัวแปร ซึ่งหมายความว่าฟังก์ชันของคุณสามารถรับอาร์กิวเมนท์เป็นอะไรก็ได้ บางทีก็โดนความเสรีนี้แว้งกัดบ่อย ๆ และมันก็ยั่วใจเหลือเกินที่จะทำการตรวจสอบชนิดข้อมูลก่อนทำงานในฟังก์ชัน มีหลายวิธีที่จะหลีกเลี่ยงได้ 
 อย่างแรกที่ควรพิจารณาคือความสอดคล้องของ API*
 
@@ -1263,26 +1258,22 @@ class Employee
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
-### Avoid fluent interfaces
+### Avoid fluent interfaces หลีกเลี่ยงฟลูเอนท์ อินเตอร์เฟส
 
-A [Fluent interface](https://en.wikipedia.org/wiki/Fluent_interface) is an object
-oriented API that aims to improve the readability of the source code by using
-[Method chaining](https://en.wikipedia.org/wiki/Method_chaining).
+[ฟลูเอนท์ อินเตอร์เฟส](https://en.wikipedia.org/wiki/Fluent_interface) 
+เป็นลักษณะการโปรแกรมที่มีเป้าหมายเพื่อให้ซอสโค้ดอ่านได้ง่ายโดย [การเรียกเมธอดเป็นลูกโซ่](https://en.wikipedia.org/wiki/Method_chaining)
 
-While there can be some contexts, frequently builder objects, where this
-pattern reduces the verbosity of the code (for example the [PHPUnit Mock Builder](https://phpunit.de/manual/current/en/test-doubles.html)
-or the [Doctrine Query Builder](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html)),
-more often it comes at some costs:
+ข้อดีของมันคือในบางกรณีแพทเทินนี้จะลดรูปของโค้ดลง ตัวอย่างเช่น [PHPUnit Mock Builder](https://phpunit.de/manual/current/en/test-doubles.html)
+หรือกับ [Doctrine Query Builder](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html)) แต่บ่อยครั้งที่มันมีต้นทุนสูง
 
-1. Breaks [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29)
-2. Breaks [Decorators](https://en.wikipedia.org/wiki/Decorator_pattern)
-3. Is harder to [mock](https://en.wikipedia.org/wiki/Mock_object) in a test suite
-4. Makes diffs of commits harder to read
+1. ละเมิด [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29)
+2. ละเมิด [Decorators](https://en.wikipedia.org/wiki/Decorator_pattern)
+3. ทดสอบแบบ [mock](https://en.wikipedia.org/wiki/Mock_object) ได้ยาก 
+4. ทำให้อ่านสิ่งที่เปลี่ยนแปลง (diffs) ในโค้ดได้ยาก
 
-For more informations you can read the full [blog post](https://ocramius.github.io/blog/fluent-interfaces-are-evil/)
-on this topic written by [Marco Pivetta](https://github.com/Ocramius).
+คุณสามารถอ่านข้อมูลเพิ่มเติมในเรื่องนี้ได้จาก [บล็อกโพส](https://ocramius.github.io/blog/fluent-interfaces-are-evil/) เขียนโดย [Marco Pivetta](https://github.com/Ocramius)
 
-**Bad:**
+**ไม่ดี:**
 
 ```php
 class Car
@@ -1328,7 +1319,7 @@ $car = (new Car())
   ->dump();
 ```
 
-**Good:**
+**ดี:**
 
 ```php
 class Car
