@@ -2055,32 +2055,24 @@ class Employee {
 ```
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
-## Don’t repeat yourself (DRY)
+## อย่าทำซ้ำ (DRY: Don't repeat yourself)
 
-Try to observe the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.
+ลองอ่านหลักการไม่ทำซ้ำ [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 
-Do your absolute best to avoid duplicate code. Duplicate code is bad because 
-it means that there's more than one place to alter something if you need to 
-change some logic.
+ทำทุกอย่างที่ทำได้เพื่อหลีกเลี่ยงโค้ดซ้ำ การมีโค้ดซ้ำไม่ดีเพราะมันหมายความว่าหากจะเปลี่ยนแปลงลอจิก คุณต้องไปเปลี่ยนโค้ดหลายที่
 
-Imagine if you run a restaurant and you keep track of your inventory: all your 
-tomatoes, onions, garlic, spices, etc. If you have multiple lists that
-you keep this on, then all have to be updated when you serve a dish with
-tomatoes in them. If you only have one list, there's only one place to update!
+ลองจินตนาการว่าถ้าคุณเปิดร้านอาหารและคุณบันทึกจำนวนของสิ่งต่าง ๆ เช่น มะเขือเทศ หอมใหญ่ กระเทียม
+เครื่องเทศ ฯลฯ ถ้าคุณจดไว้หลายที่ คุณต้องไล่แก้ไขทุกที่เมื่อใส่ส่วนประกอบนั้นลงในอาหาร แต่ถ้ามีรายการเดียวก็แค่เปลี่ยนแปลงที่เดียว
 
-Oftentimes you have duplicate code because you have two or more slightly
-different things, that share a lot in common, but their differences force you
-to have two or more separate functions that do much of the same things. Removing 
-duplicate code means creating an abstraction that can handle this set of different 
-things with just one function/module/class.
+บ่อยครั้งที่คุณมีโค้ดซ้ำเพราะมีจุดที่ใช้งานแตกต่างกันอยู่เล็กน้อย แต่โค้ดส่วนใหญ่เหมือนกัน แต่สิ่งที่แตกต่างนั้นเป็นตัวบังคับให้คุณต้องมี
+2 ฟังก์ชันหรือมากกว่าเพื่อที่จะทำสิ่งที่คล้าย ๆ กัน การกำจัดโค้ดซ้ำหมายถึงการสร้าง abstraction ที่สามารถจัดการสิ่งที่แตกต่างนั้นได้
+โดยใช้เพียงหนึ่งฟังก์ชัน/มอดูล/คลาส
 
-Getting the abstraction right is critical, that's why you should follow the
-SOLID principles laid out in the [Classes](#classes) section. Bad abstractions can be
-worse than duplicate code, so be careful! Having said this, if you can make
-a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself 
-updating multiple places anytime you want to change one thing.
+การทำ abstraction ที่ถูกต้องนั้นเป็นสิ่งสำคัญ เป็นเหตุว่าทำไมคุณควรทำตามหลักการ SOLID ที่มีในบทของ [คลาส](#คลาส)
+abstraction ที่ไม่ดีก่อความเสียหายได้มากกว่าโค้ดซ้ำเสียอีก เพราะฉะนั้นต้องระวังให้มาก สรุปว่า ถ้าคุณสามารถสร้าง abstractions ที่ดีได้ จงทำเสีย!
+อย่าสร้างโค้ดซ้ำ ไม่เช่นนั้นคุณจะจบที่ต้องมานั่งแก้ไขโค้ดหลาย ๆ ที่เพียงเพราะต้องการเปลี่ยนอะไรนิดเดียว
 
-**Bad:**
+**ไม่ดี:**
 
 ```php
 function showDeveloperList(array $developers): void
@@ -2116,7 +2108,7 @@ function showManagerList(array $managers): void
 }
 ```
 
-**Good:**
+**ดี:**
 
 ```php
 function showList(array $employees): void
@@ -2136,9 +2128,9 @@ function showList(array $employees): void
 }
 ```
 
-**Very good:**
+**ดีมาก:**
 
-It is better to use a compact version of the code.
+ใช้โค้ดที่สั้นกระชับเป็นการดีที่สุด
 
 ```php
 function showList(array $employees): void
@@ -2157,9 +2149,9 @@ function showList(array $employees): void
 
 
 
-## Translations
+## การแปล
 
-This is also available in other languages:
+บทความนี้มีในภาษาอื่นด้วย:
 
 *  :cn: **Chinese:**
    * [php-cpm/clean-code-php](https://github.com/php-cpm/clean-code-php)
