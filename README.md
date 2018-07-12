@@ -1,7 +1,8 @@
 # คลีนโค้ด PHP
 
 ## สารบัญ  
-  1. [คำนำ](#คำนำ)
+
+  1. [บทนำ](#คำนำ)
   2. [ตัวแปร](#ตัวแปร)
      * [ใช้ชื่อตัวแปรที่มีความหมายและอ่านออกเสียงได้](#ใช้ชื่อตัวแปรที่มีความหมายและอ่านออกเสียงได้)
      * [ใช้ศัพท์เดียวกันสำหรับตัวแปรชนิดเดียวกัน](#ใช้ศัพท์เดียวกันสำหรับตัวแปรชนิดเดียวกัน)
@@ -13,7 +14,9 @@
      * [หลีกเลี่ยงการต้องไล่ลำดับเอง](#หลีกเลี่ยงการต้องไล่ลำดับเอง)
      * [อย่าเพิ่มสิ่งที่ไม่จำเป็น](#อย่าเพิ่มสิ่งที่ไม่จำเป็น)
      * [ให้อาร์กิวเมนต์มีค่าเริ่มต้น แทนที่การใช้ทางลัดหรือใช้การเช็คเงื่อนไข](#ให้อาร์กิวเมนต์มีค่าเริ่มต้น-แทนที่การใช้ทางลัดหรือใช้การเช็คเงื่อนไข)
-  3. [ฟังก์ชัน](#ฟังก์ชัน)
+  3. [Comparison](#comparison)
+     * [Use identical comparison](#use-identical-comparison)
+  4. [ฟังก์ชัน](#ฟังก์ชัน)
      * [อาร์กิวเมนท์ในฟังก์ชัน (2 ตัวหรือน้อยกว่าจะดีมาก)](#อาร์กิวเมนท์ในฟังก์ชัน (2 ตัวหรือน้อยกว่าจะดีมาก))
      * [ฟังก์ชันควรจะทำงานเพียงอย่างเดียว](#ฟังก์ชันควรจะทำงานเพียงอย่างเดียว)
      * [ชื่อฟังก์ชันควรจะสื่อว่ามันทำอะไร](#ชื่อฟังก์ชันควรจะสื่อว่ามันทำอะไร)
@@ -28,22 +31,23 @@
      * [หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 1) ](#หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 1))
      * [หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 2) ](#หลีกเลี่ยงการตรวจสอบชนิดข้อมูล (ภาค 2))
      * [เอาโค้ดที่ตายแล้วออกไป](#เอาโค้ดที่ตายแล้วออกไป)
-  4. [อ็อบเจคและโครงสร้างข้อมูล](#อ็อบเจคและโครงสร้างข้อมูล)
+  5. [อ็อบเจคและโครงสร้างข้อมูล](#อ็อบเจคและโครงสร้างข้อมูล)
      * [ใช้การซ่อนเนื้อหาของอ็อบเจค (object encapsulation)](#ใช้การซ่อนเนื้อหาของอ็อบเจค (object encapsulation))
      * [Make objects have private/protected members](#make-objects-have-privateprotected-members)
-  5. [คลาส](#classes)
+  6. [คลาส](#classes)
      * [Prefer composition over inheritance](#prefer-composition-over-inheritance)
      * [Avoid fluent interfaces](#avoid-fluent-interfaces)
-  6. [SOLID](#solid)
+     * [Prefer `final` classes](#prefer-final-classes)
+  7. [SOLID](#solid)
      * [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
      * [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
      * [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
      * [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
      * [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-  7. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  8. [การแปล](#translations)
+  8. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
+  9. [การแปล](#translations)
 
-## คำนำ
+## บทนำ
 
 หลักการทางวิศวกรรมซอฟแวร์ จากหนังสือของโรเบิร์ต ซี. มาร์ติน เรื่อง
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
@@ -125,7 +129,7 @@ class User
 {
     const ACCESS_READ = 1;
     const ACCESS_CREATE = 2;
-    const ACCESS_UPDATE = 4;
+    const ACCESS_UPDATE = 4;
     const ACCESS_DELETE = 8;
 }
 
@@ -143,7 +147,7 @@ if ($user->access & User::ACCESS_UPDATE) {
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
+$cityZipCodeRegex = '/^[^,]+,\s*(.+?)\s*(\d{5})$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
 saveCityZipCode($matches[1], $matches[2]);
@@ -155,7 +159,7 @@ saveCityZipCode($matches[1], $matches[2]);
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
+$cityZipCodeRegex = '/^[^,]+,\s*(.+?)\s*(\d{5})$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
 [, $city, $zipCode] = $matches;
@@ -168,7 +172,7 @@ saveCityZipCode($city, $zipCode);
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(?<city>.+?)\s*(?<zipCode>\d{5})?$/';
+$cityZipCodeRegex = '/^[^,]+,\s*(?<city>.+?)\s*(?<zipCode>\d{5})$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
 saveCityZipCode($matches['city'], $matches['zipCode']);
@@ -178,7 +182,7 @@ saveCityZipCode($matches['city'], $matches['zipCode']);
 
 ### หลีกเลี่ยงโค้ดที่ซ้อนลงไปลึกเกินไปและคืนค่าตั้งแต่ต้น (ภาค 1)
 
-คำสั่ง if else มากเกินไปทำให้ไล่โค้ดได้ยาก
+คำสั่ง if else มากเกินไปทำให้ไล่โค้ดได้ยาก ความเฉพาะเจาะจงดีกว่าต้องคาดเดา
 
 **ไม่ดี:**
 
@@ -219,7 +223,7 @@ function isShopOpen(string $day): bool
         'friday', 'saturday', 'sunday'
     ];
 
-    return in_array(strtolower($day), $openingDays);
+    return in_array(strtolower($day), $openingDays, true);
 }
 ```
 
@@ -373,6 +377,43 @@ function createMicrobrewery(string $breweryName = 'Hipster Brew Co.'): void
 ```
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
+
+## Comparison
+
+### Use [identical comparison](http://php.net/manual/en/language.operators.comparison.php)
+
+**Not good:**
+
+The simple comparison will convert the string in an integer.
+
+```php
+$a = '42';
+$b = 42;
+
+if ($a != $b) {
+   // The expression will always pass
+}
+```
+
+The comparison `$a != $b` returns `FALSE` but in fact it's `TRUE`!
+The string `42` is different than the integer `42`.
+
+**Good:**
+
+The identical comparison will compare type and value.
+
+```php
+$a = '42';
+$b = 42;
+
+if ($a !== $b) {
+    // The expression is verified
+}
+```
+
+The comparison `$a !== $b` returns `TRUE`.
+
+**[⬆ back to top](#table-of-contents)**
 
 ## **ฟังก์ชัน**
 
@@ -1083,7 +1124,7 @@ class BankAccount
       $this->balance = $balance;
     }
 
-    public function withdrawBalance(int $amount): void
+    public function withdraw(int $amount): void
     {
         if ($amount > $this->balance) {
             throw new \Exception('Amount greater than available balance.');
@@ -1092,12 +1133,12 @@ class BankAccount
         $this->balance -= $amount;
     }
 
-    public function depositBalance(int $amount): void
+    public function deposit(int $amount): void
     {
         $this->balance += $amount;
     }
 
-    public function getBalance(): int
+    public function getBalance(): int
     {
         return $this->balance;
     }
@@ -1106,7 +1147,7 @@ class BankAccount
 $bankAccount = new BankAccount();
 
 // ซื้อรองเท้า ...
-$bankAccount->withdrawBalance($shoesPrice);
+$bankAccount->withdraw($shoesPrice);
 
 // เช็คยอด
 $balance = $bankAccount->getBalance();
@@ -1358,6 +1399,74 @@ $car->dump();
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
+### Prefer final classes
+
+The `final` should be used whenever possible:
+
+1. It prevents uncontrolled inheritance chain.
+2. It encourages [composition](#prefer-composition-over-inheritance).
+3. It encourages the [Single Responsibility Pattern](#single-responsibility-principle-srp).
+4. It encourages developers to use your public methods instead of extending the class to get access on protected ones.
+5. It allows you to change your code without any break of applications that use your class.
+
+The only condition is that your class should implement an interface and no other public methods are defined.
+
+For more informations you can read [the blog post](https://ocramius.github.io/blog/when-to-declare-classes-final/) on this topic written by [Marco Pivetta (Ocramius)](https://ocramius.github.io/).
+
+**Bad:**
+
+```php
+final class Car
+{
+    private $color;
+    
+    public function __construct($color)
+    {
+        $this->color = $color;
+    }
+    
+    /**
+     * @return string The color of the vehicle
+     */
+    public function getColor() 
+    {
+        return $this->color;
+    }
+}
+```
+
+**Good:**
+
+```php
+interface Vehicle
+{
+    /**
+     * @return string The color of the vehicle
+     */
+    public function getColor();
+}
+
+final class Car implements Vehicle
+{
+    private $color;
+    
+    public function __construct($color)
+    {
+        $this->color = $color;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getColor() 
+    {
+        return $this->color;
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ## SOLID
 
 **SOLID** is the mnemonic acronym introduced by Michael Feathers for the first five principles named by Robert Martin, which meant five basic principles of object-oriented programming and design.
@@ -1582,11 +1691,6 @@ class Rectangle
     protected $width = 0;
     protected $height = 0;
 
-    public function render(int $area): void
-    {
-        // ...
-    }
-
     public function setWidth(int $width): void
     {
         $this->width = $width;
@@ -1616,45 +1720,44 @@ class Square extends Rectangle
     }
 }
 
-function renderLargeRectangles(Rectangle $rectangles): void
+function printArea(Rectangle $rectangle): void
 {
-    foreach ($rectangles as $rectangle) {
-        $rectangle->setWidth(4);
-        $rectangle->setHeight(5);
-        $area = $rectangle->getArea(); // BAD: Will return 25 for Square. Should be 20.
-        $rectangle->render($area);
-    }
+    $rectangle->setWidth(4);
+    $rectangle->setHeight(5);
+ 
+    // BAD: Will return 25 for Square. Should be 20.
+    echo sprintf('%s has area %d.', get_class($rectangle), $rectangle->getArea()).PHP_EOL;
 }
 
-$rectangles = [new Rectangle(), new Rectangle(), new Square()];
-renderLargeRectangles($rectangles);
+$rectangles = [new Rectangle(), new Square()];
+
+foreach ($rectangles as $rectangle) {
+    printArea($rectangle);
+}
 ```
 
 **Good:**
 
+The best way is separate the quadrangles and allocation of a more general subtype for both shapes.
+
+Despite the apparent similarity of the square and the rectangle, they are different.
+A square has much in common with a rhombus, and a rectangle with a parallelogram, but they are not subtype.
+A square, a rectangle, a rhombus and a parallelogram are separate shapes with their own properties, albeit similar.
+
 ```php
-abstract class Shape
+interface Shape
 {
-    protected $width = 0;
-    protected $height = 0;
-
-    abstract public function getArea(): int;
-
-    public function render(int $area): void
-    {
-        // ...
-    }
+    public function getArea(): int;
 }
 
-class Rectangle extends Shape
+class Rectangle implements Shape
 {
-    public function setWidth(int $width): void
+    private $width = 0;
+    private $height = 0;
+
+    public function __construct(int $width, int $height)
     {
         $this->width = $width;
-    }
-
-    public function setHeight(int $height): void
-    {
         $this->height = $height;
     }
 
@@ -1664,38 +1767,31 @@ class Rectangle extends Shape
     }
 }
 
-class Square extends Shape
+class Square implements Shape
 {
     private $length = 0;
 
-    public function setLength(int $length): void
+    public function __construct(int $length)
     {
         $this->length = $length;
     }
 
     public function getArea(): int
     {
-        return pow($this->length, 2);
-    }
+        return $this->length ** 2;
+    }
 }
 
-function renderLargeRectangles(Shape $rectangles): void
+function printArea(Shape $shape): void
 {
-    foreach ($rectangles as $rectangle) {
-        if ($rectangle instanceof Square) {
-            $rectangle->setLength(5);
-        } elseif ($rectangle instanceof Rectangle) {
-            $rectangle->setWidth(4);
-            $rectangle->setHeight(5);
-        }
-
-        $area = $rectangle->getArea(); 
-        $rectangle->render($area);
-    }
+    echo sprintf('%s has area %d.', get_class($shape), $shape->getArea()).PHP_EOL;
 }
 
-$shapes = [new Rectangle(), new Rectangle(), new Square()];
-renderLargeRectangles($shapes);
+$shapes = [new Rectangle(4, 5), new Square(5)];
+
+foreach ($shapes as $shape) {
+    printArea($shape);
+}
 ```
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
@@ -1706,7 +1802,7 @@ ISP states that "Clients should not be forced to depend upon interfaces that
 they do not use." 
 
 A good example to look at that demonstrates this principle is for
-classes that require large settings objects. Not requiring clients to setup
+classes that require large settings objects. Not requiring clients to set up
 huge amounts of options is beneficial, because most of the time they won't need
 all of the settings. Making them optional helps prevent having a "fat interface".
 
@@ -1883,187 +1979,32 @@ class Manager
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
-### Use method chaining
-This pattern is very useful and commonly used in many libraries such
-as PHPUnit and Doctrine. It allows your code to be expressive, and less verbose.
-For that reason, use method chaining and take a look at how clean your code
-will be. In your class functions, simply use `return $this` at the end of every `set` function,
-and you can chain further class methods onto it.
+## Don’t repeat yourself (DRY)
+
+Try to observe the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.
+
+Do your absolute best to avoid duplicate code. Duplicate code is bad because 
+it means that there's more than one place to alter something if you need to 
+change some logic.
+
+Imagine if you run a restaurant and you keep track of your inventory: all your 
+tomatoes, onions, garlic, spices, etc. If you have multiple lists that
+you keep this on, then all have to be updated when you serve a dish with
+tomatoes in them. If you only have one list, there's only one place to update!
+
+Often you have duplicate code because you have two or more slightly
+different things, that share a lot in common, but their differences force you
+to have two or more separate functions that do much of the same things. Removing 
+duplicate code means creating an abstraction that can handle this set of different 
+things with just one function/module/class.
+
+Getting the abstraction right is critical, that's why you should follow the
+SOLID principles laid out in the [Classes](#classes) section. Bad abstractions can be
+worse than duplicate code, so be careful! Having said this, if you can make
+a good abstraction, do it! Don't repeat yourself, otherwise you'll find yourself 
+updating multiple places any time you want to change one thing.
 
 **Bad:**
-```php
-class Car {
-    private $make, $model, $color;
-    
-    public function __construct() {
-        $this->make = 'Honda';
-        $this->model = 'Accord';
-        $this->color = 'white';
-    }
-    
-    public function setMake($make) {
-        $this->make = $make;
-    }
-    
-    public function setModel($model) {
-        $this->model = $model;
-    }
-    
-    public function setColor($color) {
-        $this->color = $color;
-    }
-    
-    public function dump() {
-        var_dump($this->make, $this->model, $this->color);
-    }
-}
-
-$car = new Car();
-$car->setColor('pink');
-$car->setMake('Ford');
-$car->setModel('F-150');
-$car->dump();
-```
-
-**Good:**
-```php
-class Car {
-    private $make, $model, $color;
-    
-    public function __construct() {
-        $this->make = 'Honda';
-        $this->model = 'Accord';
-        $this->color = 'white';
-    }
-    
-    public function setMake($make) {
-        $this->make = $make;
-        
-        // NOTE: Returning this for chaining
-        return $this;
-    }
-    
-    public function setModel($model) {
-        $this->model = $model;
-        
-        // NOTE: Returning this for chaining
-        return $this;
-    }
-    
-    public function setColor($color) {
-        $this->color = $color;
-        
-        // NOTE: Returning this for chaining
-        return $this;
-    }
-    
-    public function dump() {
-        var_dump($this->make, $this->model, $this->color);
-    }
-}
-
-$car = (new Car())
-  ->setColor('pink')
-  ->setMake('Ford')
-  ->setModel('F-150')
-  ->dump();
-```
-**[⬆ กลับไปด้านบน](#สารบัญ)**
-
-### Prefer composition over inheritance
-As stated famously in [*Design Patterns*](https://en.wikipedia.org/wiki/Design_Patterns) by the Gang of Four,
-you should prefer composition over inheritance where you can. There are lots of
-good reasons to use inheritance and lots of good reasons to use composition.
-The main point for this maxim is that if your mind instinctively goes for
-inheritance, try to think if composition could model your problem better. In some
-cases it can.
-
-You might be wondering then, "when should I use inheritance?" It
-depends on your problem at hand, but this is a decent list of when inheritance
-makes more sense than composition:
-
-1. Your inheritance represents an "is-a" relationship and not a "has-a"
-relationship (Human->Animal vs. User->UserDetails).
-2. You can reuse code from the base classes (Humans can move like all animals).
-3. You want to make global changes to derived classes by changing a base class.
-(Change the caloric expenditure of all animals when they move).
-
-**Bad:**
-```php
-class Employee {
-    private $name, $email;
-    
-    public function __construct($name, $email) {
-        $this->name = $name;
-        $this->email = $email;
-    }
-    
-    // ...
-}
-
-// Bad because Employees "have" tax data. 
-// EmployeeTaxData is not a type of Employee
-
-class EmployeeTaxData extends Employee {
-    private $ssn, $salary;
-    
-    public function __construct($name, $email, $ssn, $salary) {
-        parent::__construct($name, $email);
-        $this->ssn = $ssn;
-        $this->salary = $salary;
-    }
-    
-    // ...
-}
-```
-
-**Good:**
-```php
-class EmployeeTaxData {
-    private $ssn, $salary;
-    
-    public function __construct($ssn, $salary) {
-        $this->ssn = $ssn;
-        $this->salary = $salary;
-    }
-    
-    // ...
-}
-
-class Employee {
-    private $name, $email, $taxData;
-    
-    public function __construct($name, $email) {
-        $this->name = $name;
-        $this->email = $email;
-    }
-    
-    public function setTaxData($ssn, $salary) {
-        $this->taxData = new EmployeeTaxData($ssn, $salary);
-    }
-    // ...
-}
-```
-**[⬆ กลับไปด้านบน](#สารบัญ)**
-
-## อย่าทำซ้ำ (DRY: Don't repeat yourself)
-
-ลองอ่านหลักการไม่ทำซ้ำ [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
-
-ทำทุกอย่างที่ทำได้เพื่อหลีกเลี่ยงโค้ดซ้ำ การมีโค้ดซ้ำไม่ดีเพราะมันหมายความว่าหากจะเปลี่ยนแปลงลอจิก คุณต้องไปเปลี่ยนโค้ดหลายที่
-
-ลองจินตนาการว่าถ้าคุณเปิดร้านอาหารและคุณบันทึกจำนวนของสิ่งต่าง ๆ เช่น มะเขือเทศ หอมใหญ่ กระเทียม
-เครื่องเทศ ฯลฯ ถ้าคุณจดไว้หลายที่ คุณต้องไล่แก้ไขทุกที่เมื่อใส่ส่วนประกอบนั้นลงในอาหาร แต่ถ้ามีรายการเดียวก็แค่เปลี่ยนแปลงที่เดียว
-
-บ่อยครั้งที่คุณมีโค้ดซ้ำเพราะมีจุดที่ใช้งานแตกต่างกันอยู่เล็กน้อย แต่โค้ดส่วนใหญ่เหมือนกัน แต่สิ่งที่แตกต่างนั้นเป็นตัวบังคับให้คุณต้องมี
-2 ฟังก์ชันหรือมากกว่าเพื่อที่จะทำสิ่งที่คล้าย ๆ กัน การกำจัดโค้ดซ้ำหมายถึงการสร้าง abstraction ที่สามารถจัดการสิ่งที่แตกต่างนั้นได้
-โดยใช้เพียงหนึ่งฟังก์ชัน/มอดูล/คลาส
-
-การทำ abstraction ที่ถูกต้องนั้นเป็นสิ่งสำคัญ เป็นเหตุว่าทำไมคุณควรทำตามหลักการ SOLID ที่มีในบทของ [คลาส](#คลาส)
-abstraction ที่ไม่ดีก่อความเสียหายได้มากกว่าโค้ดซ้ำเสียอีก เพราะฉะนั้นต้องระวังให้มาก สรุปว่า ถ้าคุณสามารถสร้าง abstractions ที่ดีได้ จงทำเสีย!
-อย่าสร้างโค้ดซ้ำ ไม่เช่นนั้นคุณจะจบที่ต้องมานั่งแก้ไขโค้ดหลาย ๆ ที่เพียงเพราะต้องการเปลี่ยนอะไรนิดเดียว
-
-**ไม่ดี:**
 
 ```php
 function showDeveloperList(array $developers): void
@@ -2138,13 +2079,11 @@ function showList(array $employees): void
 
 **[⬆ กลับไปด้านบน](#สารบัญ)**
 
-
-
 ## การแปล
 
 บทความนี้มีในภาษาอื่นด้วย:
 
-*  :cn: **Chinese:**
+* :cn: **Chinese:**
    * [php-cpm/clean-code-php](https://github.com/php-cpm/clean-code-php)
 * :ru: **Russian:**
    * [peter-gribanov/clean-code-php](https://github.com/peter-gribanov/clean-code-php)
@@ -2155,5 +2094,11 @@ function showList(array $employees): void
    * [jeanjar/clean-code-php](https://github.com/jeanjar/clean-code-php/tree/pt-br)
 * :thailand: **Thai:**
    * [panuwizzle/clean-code-php](https://github.com/panuwizzle/clean-code-php)
-
+* :fr: **French:**
+   * [errorname/clean-code-php](https://github.com/errorname/clean-code-php)
+* :vietnam: **Vietnamese**
+   * [viethuongdev/clean-code-php](https://github.com/viethuongdev/clean-code-php)
+* :kr: **Korean:**
+   * [yujineeee/clean-code-php](https://github.com/yujineeee/clean-code-php)
+   
 **[⬆ กลับไปด้านบน](#สารบัญ)**
